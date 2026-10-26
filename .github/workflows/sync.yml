@@ -2,14 +2,17 @@ name: Synchronisation Brawl Stars
 
 on:
   schedule:
+    # Trophées : toutes les heures (UTC). Ranked : toutes les 6 heures.
     - cron: '7 * * * *'
+    - cron: '37 */6 * * *'
   workflow_dispatch:
     inputs:
       mode:
-        description: 'sync = synchroniser, probe = tester l API'
+        description: 'sync = trophées, ranked = ranked, probe = test'
         type: choice
         options:
           - sync
+          - ranked
           - probe
         default: sync
 
@@ -23,7 +26,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -36,4 +39,12 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
           BRAWL_STARS_API_KEY: ${{ secrets.BRAWL_STARS_API_KEY }}
-        run: node scripts/${{ inputs.mode || 'sync' }}.mjs
+          MODE_INPUT: ${{ inputs.mode }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          MODE="$MODE_INPUT"
+          if [ -z "$MODE" ]; then
+            if [ "$SCHEDULE" = "37 */6 * * *" ]; then MODE=ranked; else MODE=sync; fi
+          fi
+          echo "Mode : $MODE"
+          node scripts/$MODE.mjs
