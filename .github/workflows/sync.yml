@@ -1,0 +1,39 @@
+name: Synchronisation Brawl Stars
+
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'sync = synchroniser, probe = tester l API'
+        type: choice
+        options:
+          - sync
+          - probe
+        default: sync
+
+concurrency:
+  group: brawl-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Installer les dépendances
+        run: npm install --no-audit --no-fund
+      - name: Lancer
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          BRAWL_STARS_API_KEY: ${{ secrets.BRAWL_STARS_API_KEY }}
+        run: node scripts/${{ inputs.mode || 'sync' }}.mjs
