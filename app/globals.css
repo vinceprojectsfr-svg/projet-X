@@ -85,12 +85,43 @@ td.pos{font-weight:800;width:44px}
 .join p{margin:6px 0 0}
 footer{padding:12px 0 44px;color:var(--mute);font-size:.9rem;text-align:center}
 @media(min-width:900px){.hero{grid-template-columns:1.2fr 1fr;align-items:center}}
+.club-m{display:none}
 @media(max-width:700px){
+  .wrap{padding:0 16px}
+  section{padding:32px 0}
+  header.top{padding:16px 0}
+  nav{width:100%;justify-content:space-between}
+  nav a{padding:8px 10px;font-size:.9rem}
+  h1{font-size:clamp(2.1rem,10vw,2.6rem)}
+  .hero{padding:20px 0 36px;gap:24px}
+  .flag{padding:24px;border-radius:22px}
+  .flag .fn{font-size:2.2rem}
+
+  /* Graphique */
+  .peaks{height:240px;gap:6px;padding-top:30px}
+  .names{gap:6px;font-size:.65rem}
+  .col .v{font-size:.72rem}
+  .col .bar{border-radius:10px 10px 0 0}
+  .badge{display:none}
+
+  /* Podium et liste des pusheurs */
   .podium{grid-template-columns:1fr}
   .p1,.p2,.p3{grid-column:1;grid-row:auto}
-  .peaks,.names{gap:6px}
-  .col .v{font-size:.8rem}
-  .names{font-size:.7rem}
-  .card{padding:18px}
+  .p1{padding:28px 16px}
+  .push li{grid-template-columns:32px 1fr auto;gap:8px}
+  .push .who b{overflow-wrap:anywhere}
+
+  /* Classement */
+  .card{padding:16px;border-radius:22px}
+  .tools select{flex:1 1 100%}
+  table{min-width:0;font-size:.88rem}
+  th,td{padding:10px 6px}
+  td.pos{width:32px}
+  th:nth-child(3),td:nth-child(3){display:none}
+  td .tag{display:block}
+  .club-m{display:block}
+
+  .join{padding:28px 20px;border-radius:24px}
+  .join .btn{width:100%;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){.col .bar{transition:none}html{scroll-behavior:auto}}
