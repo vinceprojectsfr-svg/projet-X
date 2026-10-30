@@ -194,7 +194,7 @@ export default function HomeClient({ clubs, players, gainsT, gainsR, pushT, push
                     return (
                       <tr key={p.tag}>
                         <td className="pos">{p.pos}</td>
-                        <td>{p.name} <span className="tag">{p.tag}</span></td>
+                        <td>{p.name} <span className="tag">{p.tag}</span><span className="tag club-m">{clubName[p.club_tag]}</span></td>
                         <td>{clubName[p.club_tag] || ''}</td>
                         {ct === 'r' && <td>{rk(p.ranked_rank_name)}</td>}
                         <td className="num">{nf(ct === 't' ? p.trophies : p.ranked_elo)}</td>
